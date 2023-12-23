@@ -1,0 +1,7 @@
+.field {
+    display: flex;
+    min-width: 45%;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
