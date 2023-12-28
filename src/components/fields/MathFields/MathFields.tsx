@@ -21,7 +21,7 @@ const MathFields = memo((props: any) => {
                 label={`Ответ`}
                 value={props.value}
                 onChange={props.onChange}
-                error={props.errors}
+                error={props.error}
             />
         </div>
     );

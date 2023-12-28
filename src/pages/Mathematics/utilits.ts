@@ -91,3 +91,23 @@ export function validationSchemaUtil (equations: TEquation[]) {
         }, {})
     );
 }
+
+interface MultiplicationEntry {
+    equation: string;
+    answer: number;
+}
+
+export function createMultiplicationTable(number: string): MultiplicationEntry[] {
+    const table: MultiplicationEntry[] = [];
+
+    for (let i = 1; i <= 9; i++) {
+        const equation: string = `${number} x ${i}`;
+        const answer: number = Number(number) * i;
+        table.push({ equation, answer });
+    }
+
+    return table;
+}
+
+
+

@@ -1,12 +1,19 @@
 import {Button, ButtonGroup, Grid, Paper,} from "@mui/material";
 import {useFormik} from "formik";
-import {generateEquations, generateExamples, initialFormValuesUtil, validationSchemaUtil} from "./utilits.ts";
+import {
+    createMultiplicationTable,
+    generateEquations,
+    generateExamples,
+    initialFormValuesUtil,
+    validationSchemaUtil
+} from "./utilits.ts";
 import {useEffect, useState} from "react";
 import {ModalResults} from "./ModalResults.tsx";
 import styles from './Matematics.module.css'
 import MathFields from "../../components/fields/MathFields/MathFields.tsx";
 import {TEquation} from "../../common/commonType.ts";
-import {BUTTONS} from './constants.ts';
+import {BUTTONS, MULTIPLICATION_TABLE} from './constants.ts';
+import SplitButton from "./MultiplicationTableButton.tsx";
 
 const Mathematics = () => {
 
@@ -59,7 +66,7 @@ const Mathematics = () => {
     /**
      * Выбор задачи
      */
-    const taskSelection = (e: string) => {
+    const taskSelection = (e: string, value?: string) => {
         let equations: TEquation[];
 
         switch (e) {
@@ -68,6 +75,33 @@ const Mathematics = () => {
                 break;
             case 'arithmeticExpression':
                 equations = generateExamples();
+                break;
+            // case '2':
+            //     equations = createMultiplicationTable(e);
+            //     break;
+            // case '3':
+            //     equations = createMultiplicationTable(3);
+            //     break;
+            // case '4':
+            //     equations = createMultiplicationTable(4);
+            //     break;
+            // case '5':
+            //     equations = createMultiplicationTable(5);
+            //     break;
+            // case '6':
+            //     equations = createMultiplicationTable(6);
+            //     break;
+            // case '7':
+            //     equations = createMultiplicationTable(7);
+            //     break;
+            // case '8':
+            //     equations = createMultiplicationTable(8);
+            //     break;
+            // case '9':
+            //     equations = createMultiplicationTable(9);
+            //     break;
+            case MULTIPLICATION_TABLE.name:
+                equations = createMultiplicationTable(value!);
                 break;
             default:
                 break;
@@ -85,6 +119,7 @@ const Mathematics = () => {
         setEquations([]);
         setInitialFormValues({});
         setValidationSchema([]);
+        formik.resetForm()
     }
 
     useEffect(() => {
@@ -112,6 +147,7 @@ const Mathematics = () => {
                 }}
             >
                 <ModalResults
+                    equations={equations.length}
                     errorsCount={Object.keys(formik.errors).length}
                     open={open}
                     handleClose={handleClose}
@@ -136,13 +172,14 @@ const Mathematics = () => {
                                         </Button>
                                     ))
                                 }
+                                <SplitButton taskSelection={taskSelection}/>
                             </ButtonGroup>)
 
                     }
 
                     {
                         equations.length > 0 && (
-                            <Button onClick={reset} size="large" variant="contained" style={{width: '100%'}}>
+                            <Button onClick={reset} variant="contained" style={{width: '100%', height: '40px'}}>
                                 Назад
                             </Button>
                         )
